@@ -56,11 +56,7 @@ class Bird:
         self.dire = {
             (+5,0)
     
-    def update(self, key_lst: list[bool], screen: pg.Surface):
-        if key_lst[pg.K_SPACE]:
-            beam_direction = self.facing_direction
-            beam = Beam(self, beam_direction)
-            self.beams.append(beam)
+   
         }      
         #}  
         #self.img = pg.transform.flip(  # 左右反転
@@ -185,6 +181,7 @@ def main():
     #bomb = Bomb((255, 0, 0), 10)
     bombs = [Bomb((255, 0, 0), 10) for _ in range(NUM_OF_BOMBS)]
     beam = None
+    beams = []
     explosions = []  # 爆発エフェクトのリスト
     
     clock = pg.time.Clock()
@@ -194,7 +191,7 @@ def main():
             if event.type == pg.QUIT:
                 return
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
-                beam = Beam(bird)  # ビームクラスのインスタンスを生成する       
+                beams.append(Beam(bird))  # ビームクラスのインスタンスを生成する       
         
         screen.blit(bg_img, [0, 0])
         for bomb in bombs:
@@ -213,10 +210,10 @@ def main():
                     bird.change_img(6, screen)
                     pg.display.update()
                     
-        for beam in bird.beams:
+        for beam in beams:
             beam.update(screen) 
             
-        for beam in bird.beams:
+        for beam in beams:
             beam.draw(screen)      
 
         key_lst = pg.key.get_pressed()
